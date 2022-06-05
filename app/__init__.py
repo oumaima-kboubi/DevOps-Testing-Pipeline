@@ -7,14 +7,7 @@ from yaml import load, Loader
 
 
 def init_connection_engine():
-    """ initialize database setup
-    Takes in os variables from environment if on GCP
-    Reads in local variables that will be ignored in public repository.
-    Returns:
-        pool -- a connection to GCP MySQL
-    """
-
-
+  
     # detect env local or gcp
     if os.environ.get('GAE_ENV') != 'standard':
         try:
