@@ -1,53 +1,38 @@
-""" Specifies routing for the application"""
-from flask import render_template, request, jsonify
+from flask import render_template, request
 from app import app
-from app import database as db_helper
 
-@app.route("/delete/<int:task_id>", methods=['POST'])
-def delete(task_id):
-    """ recieved post requests for entry delete """
+@app.get('/tasks')
+def get_all_tasks():
+    return "tasks"
 
-    try:
-        db_helper.remove_task_by_id(task_id)
-        result = {'success': True, 'response': 'Removed task'}
-    except:
-        result = {'success': False, 'response': 'Something went wrong'}
-
-    return jsonify(result)
-
-
-@app.route("/edit/<int:task_id>", methods=['POST'])
-def update(task_id):
-    """ recieved post requests for entry updates """
-
-    data = request.get_json()
-
-    try:
-        if "status" in data:
-            db_helper.update_status_entry(task_id, data["status"])
-            result = {'success': True, 'response': 'Status Updated'}
-        elif "description" in data:
-            db_helper.update_task_entry(task_id, data["description"])
-            result = {'success': True, 'response': 'Task Updated'}
-        else:
-            result = {'success': True, 'response': 'Nothing Updated'}
-    except:
-        result = {'success': False, 'response': 'Something went wrong'}
-
-    return jsonify(result)
-
-
-@app.route("/create", methods=['POST'])
-def create():
-    """ recieves post requests to add new task """
-    data = request.get_json()
-    db_helper.insert_new_task(data['description'])
-    result = {'success': True, 'response': 'Done'}
-    return jsonify(result)
-
+@app.post('/tasks')
+def create_task():
+    """
+    POST /tasks JSON
+    {
+        "taskname":string
+        "status": string
+    }
+    """
+    request_body = request.get_json()
+    taskname = request_body["taskname"]
+    status = request_body["status"]
+    #print(taskname)
+    #print(status)
+    db_connection= app.config["DATABASE_CON"]
+    cursor = db_connection.cursor()
+    cursor.execute(
+        "INSERT INTO tasks (taskname, status) VALUES (?,?)",
+        (taskname,status)
+    )
+    db_connection.commit()
+    task_id = cursor.lastrowid
+    cur = db_connection.cursor()
+    cur.execute(
+        "SELECT * FROM tasks wherer task_id=?",(task_id,) #tuple that has only one element
+    ) 
+    return {"message":"Inserted successfully"}
 
 @app.route("/")
 def homepage():
-    """ returns rendered homepage """
-    items = db_helper.fetch_todo()
-    return render_template("index.html", items=items)
+   return render_template("index.html")
