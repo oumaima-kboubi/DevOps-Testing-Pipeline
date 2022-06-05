@@ -1,3 +1,4 @@
+import sqlite3
 from flask import render_template, request
 from app import app
 
@@ -27,11 +28,19 @@ def create_task():
     )
     db_connection.commit()
     task_id = cursor.lastrowid
+    db_connection.row_factory = sqlite3.Row 
     cur = db_connection.cursor()
     cur.execute(
-        "SELECT * FROM tasks wherer task_id=?",(task_id,) #tuple that has only one element
+        "SELECT * FROM tasks where task_id=?",(task_id,) #tuple that has only one element
     ) 
-    return {"message":"Inserted successfully"}
+    data = cur.fetchone()
+    dict_data=(dict(data))
+    return{
+        'task_id': dict_data['task_id'],
+        'taskname':dict_data['taskname'],
+        'status': dict_data['status']
+        }
+   
 
 @app.route("/")
 def homepage():
