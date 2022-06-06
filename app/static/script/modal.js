@@ -28,7 +28,7 @@ $(document).ready(function () {
         console.log($('#task-modal').find('.form-control').val())
         $.ajax({
             type: 'POST',
-            url: tID ? '/edit/' + tID : '/create',
+            url: tID ? '/tasks/' + tID : '/tasks',
             contentType: 'application/json;charset=UTF-8',
             data: JSON.stringify({
                 'description': $('#task-modal').find('.form-control').val()
@@ -46,8 +46,8 @@ $(document).ready(function () {
     $('.remove').click(function () {
         const remove = $(this)
         $.ajax({
-            type: 'POST',
-            url: '/delete/' + remove.data('source'),
+            type: 'DELETE',
+            url: '/tasks/' + remove.data('source'),
             success: function (res) {
                 console.log(res.response)
                 location.reload();
@@ -71,7 +71,7 @@ $(document).ready(function () {
         }
 
         $.ajax({
-            type: 'POST',
+            type: 'PUT',
             url: '/edit/' + tID,
             contentType: 'application/json;charset=UTF-8',
             data: JSON.stringify({

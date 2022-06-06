@@ -1,6 +1,18 @@
+import json
 import sqlite3
 from flask import jsonify, render_template, request
 from app import app
+
+@app.get('/tasks/home')
+def tasks_home():
+    db_connection= app.config["DATABASE_CON"]
+    db_connection.row_factory = sqlite3.Row 
+    cursor = db_connection.cursor()
+    cursor.execute(
+        "SELECT * FROM tasks"
+    )
+    data = cursor.fetchall()
+    return  render_template("index.html", tasks=data)
 
 @app.get('/tasks')
 def get_all_tasks():
@@ -11,7 +23,7 @@ def get_all_tasks():
         "SELECT * FROM tasks"
     )
     data = cursor.fetchall()
-    #print([dict(element) for element in data]) # list comprehention
+    print([dict(element) for element in data]) # list comprehention
     return jsonify([
         {
             "task_id":element['task_id'],
@@ -20,6 +32,7 @@ def get_all_tasks():
         }
         for element in data
     ])
+   
 
 @app.post('/tasks')
 def create_task():
@@ -73,6 +86,16 @@ def delete_task(task_id):
             "message": "Task deleted successfully"
         }
     return app 
+
+# @app.put("/tasks/<string:task_id>")
+# def update_task(task_id):
+#     db_connection= app.config["DATABASE_CON"]
+#     cursor = db_connection.cursor()
+#     cursor.execute(
+#         "UPDATE tasks SET where task_id = ?",
+#         (task_id,)
+#     )
+
 
 @app.route("/")
 def homepage():

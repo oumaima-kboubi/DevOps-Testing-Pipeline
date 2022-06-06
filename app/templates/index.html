@@ -70,24 +70,24 @@
         </thead>
 
         <tbody>
-        {% for item in items %}
+        {% for element in tasks %}
             <tr>
-                <td>{{item.id}}</td>
-                <td>{{item.task}}</td>
+                <td>{{element['task_id']}}</td>
+                <td>{{element['taskname']}}</td>
 
-                {% if item.status == "In Progress" %}
-                    <td><button type="button" class="btn btn-outline-warning btn-sm state" data-source="{{item.id}}">{{item.status}}</button></td>
+                {% if element['status'] == "In Progress" %}
+                    <td><button type="button" class="btn btn-outline-warning btn-sm state" data-source="{{element['task_id']}}">{{element['status']}}</button></td>
                 {%endif%}
-                {% if item.status == "Todo" %}
-                    <td><button type="button" class="btn btn-outline-secondary btn-sm state" data-source="{{item.id}}">{{item.status}}</button></td>
+                {% if element['status'] == "Todo" %}
+                    <td><button type="button" class="btn btn-outline-secondary btn-sm state" data-source="{{element['task_id']}}">{{element['status']}}</button></td>
                 {%endif%}
-                {% if item.status == "Complete" %}
-                    <td><button type="button" class="btn btn-outline-success btn-sm state" data-source="{{item.id}}">{{item.status}}</button></td>
+                {% if element['status'] == "Complete" %}
+                    <td><button type="button" class="btn btn-outline-success btn-sm state" data-source="{{element['task_id']}}">{{element['status']}}</button></td>
                 {%endif%}
                 
-                <td><button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#task-modal" data-source="{{item.id}}" data-content="{{item.task}}"><i class="fa fa-pen fa-1" aria-hidden="true"></i></button></td>
+                <td><button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#task-modal" data-source="{{element['task_id']}}" data-content="{{ element['taskname']}}"><i class="fa fa-pen fa-1" aria-hidden="true"></i></button></td>
 
-                <td><button class="btn btn-outline-secondary btn-sm remove" data-source="{{item.id}}" type="button"><i class="fa fa-trash fa-1" aria-hidden="true"></i></button></td>
+                <td><button class="btn btn-outline-secondary btn-sm remove" data-source="{{element['task_id']}}" type="button"><i class="fa fa-trash fa-1" aria-hidden="true"></i></button></td>
             </tr>
         {% endfor %}
         
