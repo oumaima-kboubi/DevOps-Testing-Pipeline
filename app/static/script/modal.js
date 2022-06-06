@@ -31,7 +31,9 @@ $(document).ready(function () {
             url: tID ? '/tasks/' + tID : '/tasks',
             contentType: 'application/json;charset=UTF-8',
             data: JSON.stringify({
-                'description': $('#task-modal').find('.form-control').val()
+                'taskname':$('#task-modal').find('.form-control').val(),
+                'status': 'Todo'
+               // 'description': $('#task-modal').find('.form-control').val()
             }),
             success: function (res) {
                 console.log(res.response)

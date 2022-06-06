@@ -29,11 +29,11 @@ def test_create_task1(test_client):
    #Given
     request_payload = {
         "taskname":"Do DevOps project",
-        "status":"In Progress"
+        "status":"Todo"
     }
     expected_body={
         "taskname":"Do DevOps project",
-        "status":"In Progress"
+        "status":"Todo"
     }
     expected_body_keys = ["task_id","taskname","status"]
     expected_status_code = 200
@@ -71,6 +71,29 @@ def test_create_task2(test_client):
     assert int == type(response.json["task_id"])
     assert set (expected_body_keys) == response.json.keys()
 
+#Third task creation Test
+def test_create_task3(test_client):
+   #Given
+    request_payload = {
+        "taskname":"Integration Testing",
+        "status":"Complete"
+    }
+    expected_body={
+        "taskname":"Integration Testing",
+        "status":"Complete"
+    }
+    expected_body_keys = ["task_id","taskname","status"]
+    expected_status_code = 200
+
+   #When
+    response = test_client.post('/tasks', json=request_payload)
+
+   #Then
+    assert expected_status_code == response.status_code
+    assert (response.json | expected_body ) == response.json
+    assert int == type(response.json["task_id"])
+    assert set (expected_body_keys) == response.json.keys()
+
 # get all tasks Test
 def test_get_all_tasks(test_client):
     #Given
@@ -78,12 +101,17 @@ def test_get_all_tasks(test_client):
         {
             "task_id":1,
             "taskname":"Do DevOps project",
-            "status":"In Progress"
-         }
+            "status":"Todo"
+        }
         ,{
            "task_id":2,
             "taskname":"Complete Software Testing project",
             "status":"In Progress"
+        },
+        {
+            "task_id":3,
+        "taskname":"Integration Testing",
+        "status":"Complete"
         }
     ]
     expected_status_code = 200
@@ -141,6 +169,11 @@ def test_get_tasks_after_delete(test_client):
            "task_id":2,
             "taskname":"Complete Software Testing project",
             "status":"In Progress"
+        },
+        {
+            "task_id":3,
+        "taskname":"Integration Testing",
+        "status":"Complete"
         }
     ]
     expected_status_code = 200
@@ -151,4 +184,3 @@ def test_get_tasks_after_delete(test_client):
     assert expected_status_code == response.status_code
     assert expected_response == response.json
 
-    
