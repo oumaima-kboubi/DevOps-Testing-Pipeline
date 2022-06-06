@@ -3,7 +3,7 @@ describe("Let's add a new task",()=> {
     cy.visit(" http://127.0.0.1:5000/tasks/home");
     cy.get('[style="text-align: right;"] > .btn').click();
     cy.get('#newTask').should('be.visible');
-    cy.get('#newTask').type('Learn AWS ECS');
+    cy.get('#newTask').type('Pla guitar');
     // cy.get('#closeModal').should('be.non.visible');
      cy.get('#submit-task').click();
     });
