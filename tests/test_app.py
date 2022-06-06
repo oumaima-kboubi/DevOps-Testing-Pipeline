@@ -1,4 +1,5 @@
 import os
+from urllib import response
 import pytest 
 from flask import Flask
 from app import app
@@ -23,16 +24,16 @@ def test_client():
     context.pop()
 
 
-# Task creation Test
-def test_create_task(test_client):
+# First task creation Test
+def test_create_task1(test_client):
    #Given
     request_payload = {
-        "taskname":"test",
-        "status":"bien"
+        "taskname":"Do DevOps project",
+        "status":"In Progress"
     }
     expected_body={
-        "taskname":"test",
-        "status":"bien"
+        "taskname":"Do DevOps project",
+        "status":"In Progress"
     }
     expected_body_keys = ["task_id","taskname","status"]
     expected_status_code = 200
@@ -45,3 +46,109 @@ def test_create_task(test_client):
     assert (response.json | expected_body ) == response.json
     assert int == type(response.json["task_id"])
     assert set (expected_body_keys) == response.json.keys()
+
+    
+# Second task creation Test
+def test_create_task2(test_client):
+   #Given
+    request_payload = {
+        "taskname":"Complete Software Testing project",
+        "status":"In Progress"
+    }
+    expected_body={
+        "taskname":"Complete Software Testing project",
+        "status":"In Progress"
+    }
+    expected_body_keys = ["task_id","taskname","status"]
+    expected_status_code = 200
+
+   #When
+    response = test_client.post('/tasks', json=request_payload)
+
+   #Then
+    assert expected_status_code == response.status_code
+    assert (response.json | expected_body ) == response.json
+    assert int == type(response.json["task_id"])
+    assert set (expected_body_keys) == response.json.keys()
+
+# get all tasks Test
+def test_get_all_tasks(test_client):
+    #Given
+    expected_response = [
+        {
+            "task_id":1,
+            "taskname":"Do DevOps project",
+            "status":"In Progress"
+         }
+        ,{
+           "task_id":2,
+            "taskname":"Complete Software Testing project",
+            "status":"In Progress"
+        }
+    ]
+    expected_status_code = 200
+    #When
+    response = test_client.get('/tasks')
+
+    #Then
+    assert expected_status_code == response.status_code
+    assert expected_response  == response.json
+
+def test_delete_existing_task(test_client):
+    #Given
+    task_id_to_delete = 1
+    exepcted_body = {
+         "message": "Task deleted successfully"
+    }
+
+    #When 
+    response = test_client.delete(f'/tasks/{task_id_to_delete}')
+
+    #Then
+    assert exepcted_body == response.json
+
+def test_delete_already_deleted_task(test_client):
+    #Given
+    task_id_to_delete = 1
+    expected_body = {
+        "message": "Task not deleted successfully"
+    }
+
+    #When
+    response = test_client.delete(f'/tasks/{task_id_to_delete}')
+
+    #Then
+    assert expected_body == response.json
+
+
+def test_delete_non_existing_task(test_client):
+    #Given
+    task_id_to_delete = 1478
+    expected_body = {
+        "message": "Task not deleted successfully"
+    }
+
+    #When
+    response = test_client.delete(f'/tasks/{task_id_to_delete}')
+
+    #Then
+    assert expected_body == response.json
+
+def test_get_tasks_after_delete(test_client):
+    #Given
+    expected_response = [
+       {
+           "task_id":2,
+            "taskname":"Complete Software Testing project",
+            "status":"In Progress"
+        }
+    ]
+    expected_status_code = 200
+    #When
+    response = test_client.get('/tasks')
+
+    #Then
+    assert expected_status_code == response.status_code
+    assert expected_response == response.json
+
+    

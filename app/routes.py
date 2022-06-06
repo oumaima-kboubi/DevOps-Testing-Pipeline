@@ -1,10 +1,25 @@
 import sqlite3
-from flask import render_template, request
+from flask import jsonify, render_template, request
 from app import app
 
 @app.get('/tasks')
 def get_all_tasks():
-    return "tasks"
+    db_connection= app.config["DATABASE_CON"]
+    db_connection.row_factory = sqlite3.Row 
+    cursor = db_connection.cursor()
+    cursor.execute(
+        "SELECT * FROM tasks"
+    )
+    data = cursor.fetchall()
+    #print([dict(element) for element in data]) # list comprehention
+    return jsonify([
+        {
+            "task_id":element['task_id'],
+            "taskname": element['taskname'],
+            "status": element['status']
+        }
+        for element in data
+    ])
 
 @app.post('/tasks')
 def create_task():
@@ -41,6 +56,23 @@ def create_task():
         'status': dict_data['status']
         }
    
+@app.delete('/tasks/<string:task_id>')
+def delete_task(task_id):
+    db_connection= app.config["DATABASE_CON"]
+    cursor = db_connection.cursor()
+    cursor.execute(
+        "DELETE FROM tasks where task_id = ?",
+        (task_id,)
+    )
+    if cursor.rowcount == 0:
+        return {
+            "message": "Task not deleted successfully"
+        }
+    elif cursor.rowcount == 1:
+        return{
+            "message": "Task deleted successfully"
+        }
+    return app 
 
 @app.route("/")
 def homepage():
