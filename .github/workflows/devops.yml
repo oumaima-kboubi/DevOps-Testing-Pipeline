@@ -1,7 +1,7 @@
 name: DevOps test pipeline
 on: [push]
 jobs:
-  Test-Actions:
+  Unit-Test-Actions:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -11,5 +11,6 @@ jobs:
           python-version: '3.9'
           cache: 'pip'
       # - run: pip install -r requirements-dev.txt
-      - run: yarn add
-      - run: python main.py
+      - run: pip install
+      - run: python -m unittest tests/unit_test_app.py
+      
