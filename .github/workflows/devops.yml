@@ -42,7 +42,7 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/todo-app:latest
 
 
-
+#COULD NOT RUN THE INTEGRATION AND E2E TEST BECAUSE THE APP IS NOT DEPLOYED
  # Integration-Test-Actions:
   #   runs-on: ubuntu-latest
   #   steps:
