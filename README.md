@@ -126,4 +126,4 @@ which is due in my case to :
 
 <img src= "https://github.com/oumaima-kboubi/DevOps-Testing-Pipeline/blob/main/readme%20images/problem2.png" />
 
-==> Service Events: You've reached the limit on the number of tasksw 
+==> Service Events: You've reached the limit on the number of tasks you can run ...
