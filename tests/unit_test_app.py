@@ -4,7 +4,7 @@ from app import routes
 class LabelCountTest(TestCase):
     def test_low_label(self):
         #Given
-        number = 55
+        number = 2
         expected_result= {"message":"Let's get more active! Keep the hight spirit"}
 
         # When
