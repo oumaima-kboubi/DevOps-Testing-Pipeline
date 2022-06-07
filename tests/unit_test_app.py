@@ -40,7 +40,7 @@ class UserTest(TestCase):
     def test_get_first_task(self):
         #Given
         expected_task=  {
-            "taskname":"Do DevOps project",
+            "taskname":"Do DevOps project", 
             "task_id":1,
             "status":"Todo"
         }
