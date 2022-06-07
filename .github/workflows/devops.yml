@@ -12,4 +12,4 @@ jobs:
           cache: 'pip'
       # - run: pip install -r requirements-dev.txt
       - run: npm install
-      - run: python app/main.py
+      - run: python main.py
