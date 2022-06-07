@@ -31,4 +31,5 @@ jobs:
         uses: py-actions/py-dependency-install@v3
         with:
           path: "requirements.txt"
+      - run: nohup python main.py
       - run: pytest -v
