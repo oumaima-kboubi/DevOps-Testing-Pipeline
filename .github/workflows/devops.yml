@@ -31,4 +31,4 @@ jobs:
         uses: py-actions/py-dependency-install@v3
         with:
           path: "requirements.txt"
-      - run: pytest -vvv --conv=app tests/
+      - run: pytest -v
