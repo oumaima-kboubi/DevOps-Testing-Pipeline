@@ -16,5 +16,20 @@ jobs:
         with:
           path: "requirements.txt"
       - run: python main.py
+
+  Unit-Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+      # - run: pip install -r requirements-dev.txt
+      - name: Install Python dependencies
+        uses: py-actions/py-dependency-install@v3
+        with:
+          path: "requirements.txt"
       - run: python -m unittest tests/unit_test_app.py
 
