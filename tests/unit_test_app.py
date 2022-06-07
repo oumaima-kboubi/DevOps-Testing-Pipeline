@@ -11,6 +11,7 @@ class LabelCountTest(TestCase):
         result = routes.countTaskMessage(number)
 
         # Then
+        print(result)
         assert expected_result == result 
 
     def test_medium_label(self):
