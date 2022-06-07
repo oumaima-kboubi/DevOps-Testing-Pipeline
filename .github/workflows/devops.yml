@@ -17,7 +17,24 @@ jobs:
           path: "requirements.txt"
       - run: python -m unittest tests/unit_test_app.py
 
- 
+
+#COULD NOT RUN THE INTEGRATION AND E2E TEST BECAUSE THE APP IS NOT DEPLOYED
+ # Integration-Test-Actions:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Check out repository code
+  #       uses: actions/checkout@v3
+  #     - uses: actions/setup-python@v3
+  #       with:
+  #         python-version: '3.9'
+  #         cache: 'pip'
+  #     # - run: pip install -r requirements-dev.txt
+  #     - name: Install Python dependencies
+  #       uses: py-actions/py-dependency-install@v3
+  #       with:
+  #         path: "requirements.txt"
+  #     - run: python main.py &
+  #     - run: pytest -v
 
   BuildDockerImage:
     runs-on: ubuntu-latest
@@ -39,23 +56,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/todo-app:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/todo-app:${{ github.sha }}
 
-
-#COULD NOT RUN THE INTEGRATION AND E2E TEST BECAUSE THE APP IS NOT DEPLOYED
- # Integration-Test-Actions:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Check out repository code
-  #       uses: actions/checkout@v3
-  #     - uses: actions/setup-python@v3
-  #       with:
-  #         python-version: '3.9'
-  #         cache: 'pip'
-  #     # - run: pip install -r requirements-dev.txt
-  #     - name: Install Python dependencies
-  #       uses: py-actions/py-dependency-install@v3
-  #       with:
-  #         path: "requirements.txt"
-  #     - run: python main.py &
-  #     - run: pytest -v
