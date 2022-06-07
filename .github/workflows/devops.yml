@@ -31,5 +31,10 @@ jobs:
         uses: py-actions/py-dependency-install@v3
         with:
           path: "requirements.txt"
-      - run: nohup python main.py
-      - run: pytest -v
+      - parallel:
+          server-run:
+            steps:
+              - run: nohup python main.py
+          integration-test:
+            steps:
+              - run: pytest -v
