@@ -36,7 +36,7 @@ class LabelCountTest(TestCase):
         assert expected_result == result 
 
     
-class UserTest(TestCase):
+class TaskTest(TestCase):
     def test_get_first_task(self):
         #Given
         expected_task=  {

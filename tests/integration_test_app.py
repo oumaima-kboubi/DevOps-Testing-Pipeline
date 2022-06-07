@@ -13,7 +13,6 @@ def create_test_database(tmp_path_factory):
    create_db(database_filename)
    os.environ["DATABASE_FILENAME"] = str(database_filename)
 
-
 @pytest.fixture(scope='module')#module is test_app.py / function 
 def test_client():
     flask_app = app
@@ -22,7 +21,6 @@ def test_client():
     context.push()
     yield testing_client # followed by clean up, for each function we have a new context
     context.pop()
-
 
 # First task creation Test
 def test_create_task1(test_client):
@@ -47,7 +45,6 @@ def test_create_task1(test_client):
     assert int == type(response.json["task_id"])
     assert set (expected_body_keys) == response.json.keys()
 
-    
 # Second task creation Test
 def test_create_task2(test_client):
    #Given
