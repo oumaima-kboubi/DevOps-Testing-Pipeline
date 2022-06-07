@@ -11,6 +11,6 @@ jobs:
           python-version: '3.9'
           cache: 'pip'
       # - run: pip install -r requirements-dev.txt
-      - run: pip install requirements-dev.txt
+      - run: pip install requirement.txt
       - run: python -m unittest tests/unit_test_app.py
 
