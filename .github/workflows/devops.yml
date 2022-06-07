@@ -11,5 +11,5 @@ jobs:
           python-version: '3.9'
           cache: 'pip'
       # - run: pip install -r requirements-dev.txt
-      - run: npm install
+      - run: yarn add
       - run: python main.py
