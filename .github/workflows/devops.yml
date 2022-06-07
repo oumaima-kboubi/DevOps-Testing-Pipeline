@@ -1,7 +1,7 @@
 name: DevOps test pipeline
 on: [push]
 jobs:
-    Test-Actions:
+  Test-Actions:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
